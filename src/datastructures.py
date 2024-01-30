@@ -13,7 +13,27 @@ class FamilyStructure:
         self.last_name = last_name
 
         # example list of members
-        self._members = []
+        self._members = [{
+            "id": self._generateId(),
+            "first_name": "John",
+            "last_name": last_name,
+            "age": 33,
+            "lucky_numbers": [7, 13, 22]
+            },
+            {
+            "id": self._generateId(),
+            "first_name": "Jane",
+            "last_name": last_name,
+            "age": 35,
+            "lucky_numbers": [10, 14, 3]
+            },
+            {
+            "id": self._generateId(),
+            "first_name": "Jimmy",
+            "last_name": last_name,
+            "age": 5,
+            "lucky_numbers": [1]
+            }]
 
     # read-only: Use this method to generate random members ID's when adding members into the list
     def _generateId(self):
@@ -21,15 +41,48 @@ class FamilyStructure:
 
     def add_member(self, member):
         # fill this method and update the return
-        pass
+        if not "id" in member:
+            member["id"] = self._generateId()
+        if (not "first_name" in member) or (not "age" in member) or (not "lucky_numbers" in member):
+            return False
+        member["last_name"] = self.last_name
+        self._members.append(member)
+        return True
 
     def delete_member(self, id):
         # fill this method and update the return
-        pass
+        if len(self._members) == 1:
+            return "last"
+        valid_id = False
+        for member in self._members:
+            if member["id"] == id:
+                self._members.remove(member)
+                valid_id = True
+        return valid_id
+
 
     def get_member(self, id):
         # fill this method and update the return
-        pass
+        valid_id = False
+        for member in self._members:
+            if member["id"] == id:
+                self._members.remove(member)
+                valid_id = member
+        return valid_id
+    
+    def update_member(self, id, member):
+        ## you have to implement this method
+        ## loop the list and replace the member with the given id
+        valid_id = False
+        for family_member in self._members:
+            if family_member["id"] == id:
+                self._members.remove(family_member) ##removing the family member that coincides with the given id
+                member["id"] = id
+                member["last_name"] = self.last_name
+                self._members.append(member)
+                valid_id = member
+        return valid_id
+    
 
     # this method is done, it returns a list with all the family members
     def get_all_members(self):
